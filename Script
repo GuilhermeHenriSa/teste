@@ -1,0 +1,367 @@
+using UnityEngine;
+using System.Collections;
+using UnityEngine.UI;
+using System;
+using System.IO;
+using UnityEditor;
+using System.Xml;
+using System.Xml.Serialization;
+using MySql.Data.MySqlClient;
+using MySql.Data;
+using System.Configuration;
+using System.Collections.Generic;
+
+using System.Threading;
+
+public class Teste : MonoBehaviour {
+
+
+	private string server;
+	private string database;
+	private string uid;
+	private string password;
+
+
+
+	public Text AtaqueText;
+	public Text VidaText;
+	public Text SorteText;
+	public Text ResistenciaText;
+
+	public Text NomeText;
+	public Text LvlText;
+
+
+	public int valueAtaque1;
+	public int valueAtaque;
+	public int valueVida;
+	public int valueSorte;
+	public int valueResistencia;
+
+
+
+	public  Text money;
+	public int moneys;
+	private int valuemoney;
+	public int money1;
+
+	public float floatCOunt;
+
+	public Text dinheiroColetado;
+	public int dinheiroColetado1;
+
+
+	public string dataAtaque;
+
+	public int mutiplicadorTempo;
+
+	public GameObject Panel;
+	public GameObject Panel1;
+	public GameObject Panel2;
+	int counter;
+
+	private float time = 0.1f;
+	public float interpolationPeriod = 0.1f;
+
+
+	public void AddAtaque(){
+
+		if (floatCOunt > 1500) {
+			valueAtaque1 += 1;
+			money1 -= 1500;
+
+		
+
+		}
+	}
+		
+	public void AddVida(){
+		
+		if (floatCOunt > 1500){
+			valueVida += 1;
+			money1 -= 1500;
+
+		
+
+		}
+			
+	}
+
+	public void AddSorte(){
+
+		if (floatCOunt > 1500){
+			valueSorte += 1;
+			money1 -= 1500;
+
+		}
+			
+
+	}
+
+	public void AddResistencia(){
+
+		if (floatCOunt > 1500){
+			valueResistencia += 1;
+			money1 -= 1500;
+
+		}
+			
+
+	}
+
+	void Update () {
+		NomeText.text =	PlayerPrefs.GetString ("Name1");
+
+	
+		
+		time += Time.deltaTime / mutiplicadorTempo;
+
+		if (time >= interpolationPeriod) {
+			time = 0.0f;
+			dinheiroColetado1 += 1;
+			if (dinheiroColetado1 >= 10000) {
+				mutiplicadorTempo = 0;
+			}
+						
+
+		}
+		dinheiroColetado.text = dinheiroColetado1.ToString ();
+		money.text = money1.ToString ();
+
+		if (floatCOunt > 1500) {
+			
+		}
+
+		floatCOunt = int.Parse (money.text);
+
+
+
+	
+		AtaqueText.text = valueAtaque1.ToString();
+		VidaText.text = valueVida.ToString ();
+		SorteText.text = valueSorte.ToString ();
+		ResistenciaText.text = valueResistencia.ToString ();
+
+
+
+
+	}
+	void Start () {
+
+		AtaulizarInfos ();
+
+
+
+
+		
+		money1 = 10500;
+
+
+		}
+	public void teste1 (){
+		try
+		{
+			string Connect1String = "Server=localhost;Database=usuarios;Uid=root;Pwd=;";
+			MySqlConnection connection = new MySqlConnection (Connect1String);
+
+			string Query = "update contas set Ataque = "+valueAtaque1+", Money = "+money.text+" where nome = '"+this.NomeText.text+"';";
+
+			MySqlCommand mycommand2 = new MySqlCommand(Query, connection);
+			MySqlDataReader myreader2;
+			connection.Open();
+			myreader2 = mycommand2.ExecuteReader();
+			Debug.Log("Save Data");
+			while (myreader2.Read()){
+			}
+			connection.Close();
+		}
+		catch (Exception ex){
+			Debug.Log (ex.Message);
+		}
+
+
+
+	}
+
+
+			
+
+
+
+
+	public void teste2 (){
+		try
+		{
+			string Connect1String = "Server=localhost;Database=usuarios;Uid=root;Pwd=;";
+			MySqlConnection connection = new MySqlConnection (Connect1String);
+
+			string Query = "update contas set Defesa = "+valueVida+", Money = "+money.text+" where nome = '"+this.NomeText.text+"';";
+
+			MySqlCommand mycommand2 = new MySqlCommand(Query, connection);
+			MySqlDataReader myreader2;
+			connection.Open();
+			myreader2 = mycommand2.ExecuteReader();
+			Debug.Log("Save Data");
+			while (myreader2.Read()){
+			}
+			connection.Close();
+		}
+		catch (Exception ex){
+			Debug.Log (ex.Message);
+		}
+
+
+
+	}
+	public void teste3 (){
+		try
+		{
+			string Connect1String = "Server=localhost;Database=usuarios;Uid=root;Pwd=;";
+			MySqlConnection connection = new MySqlConnection (Connect1String);
+
+			string Query = "update contas set Sorte = "+valueSorte+", Money = "+money.text+" where nome = '"+this.NomeText.text+"';";
+
+			MySqlCommand mycommand2 = new MySqlCommand(Query, connection);
+			MySqlDataReader myreader2;
+			connection.Open();
+			myreader2 = mycommand2.ExecuteReader();
+			Debug.Log("Save Data");
+			while (myreader2.Read()){
+			}
+			connection.Close();
+		}
+		catch (Exception ex){
+			Debug.Log (ex.Message);
+		}
+
+
+
+	}
+	public void teste4 (){
+		try
+		{
+			string Connect1String = "Server=localhost;Database=usuarios;Uid=root;Pwd=;";
+			MySqlConnection connection = new MySqlConnection (Connect1String);
+
+			string Query = "update contas set Resistencia = "+valueResistencia+", Money="+money.text+" where nome = '"+this.NomeText.text+"';";
+
+			MySqlCommand mycommand2 = new MySqlCommand(Query, connection);
+			MySqlDataReader myreader2;
+			connection.Open();
+			myreader2 = mycommand2.ExecuteReader();
+			Debug.Log("Save Data");
+			while (myreader2.Read()){
+			}
+			connection.Close();
+		}
+		catch (Exception ex){
+			Debug.Log (ex.Message);
+		}
+
+
+
+	}
+		
+	public void coletarGrana (){
+		
+		money1 += dinheiroColetado1;
+		dinheiroColetado1 = 0;
+
+
+
+	}
+	public void EsconderPanel(){
+
+		counter++;
+		if (counter % 2 == 1) {
+			Panel.gameObject.SetActive (true);
+
+
+		} else {
+			
+			Panel.gameObject.SetActive (false);
+		}
+	}
+	public void EsconderPanel2(){
+
+		counter++;
+		if (counter % 2 == 1) {
+			Panel1.gameObject.SetActive (false);
+			Panel2.gameObject.SetActive (true);
+
+
+
+		} else {
+
+			Panel1.gameObject.SetActive (true);
+			Panel2.gameObject.SetActive (false);
+		}
+	}
+	public void AtaulizarInfos(){
+
+		string query = "select Ataque, Defesa, Sorte, Resistencia, Lvl from contas Where nome='"+this.NomeText.text+"';";
+		string Connect1String = "Server=localhost;Database=usuarios;Uid=root;Pwd=;";
+		MySqlConnection connection = new MySqlConnection (Connect1String);
+		MySqlCommand cmd = new MySqlCommand (query, connection);
+		MySqlDataReader reader = null;
+		connection.Open ();
+		try
+		{
+			reader = cmd.ExecuteReader();
+			while (reader.Read())
+			{
+				valueAtaque1 = reader.GetInt32(0);
+				valueVida = reader.GetInt32(1);
+				valueSorte  = reader.GetInt32(2);
+				valueResistencia = reader.GetInt32(3);
+
+
+			}
+			reader.Close();
+			connection.Close();
+		}
+		catch (Exception e) {
+			Debug.Log ("! " + e.ToString ());
+
+
+
+		}
+	}
+}
+
+
+
+		
+
+
+
+
+
+
+
+
+	
+
+
+
+
+		
+	
+	
+	
+	
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
